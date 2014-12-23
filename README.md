@@ -1,7 +1,10 @@
 rfile
 =====
 
-read a file in reverse line-by-line
+Read a file in reverse line-by-line.
+
+Inspired by: https://groups.google.com/forum/?fromgroups#!topic/golang-nuts/a0NRB-spRhc.
+
 <pre>
 ...
   f, err := NewReverseFile(file string)
