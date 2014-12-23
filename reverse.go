@@ -17,6 +17,7 @@ type Rfile struct {
 	atStartOfFile bool
 }
 
+// Open a file that you want read in reverse line-by-line.
 func NewReverseFile(file string) (*Rfile, error) {
 	var err error
 	rf := new(Rfile)
@@ -30,10 +31,13 @@ func NewReverseFile(file string) (*Rfile, error) {
 	return rf, nil
 }
 
+// Close file that was opened.
 func (rf *Rfile) Close() {
 	rf.fh.Close()
 }
 
+// Read next previous line, beginning with the last line in the file.
+// When the beginning of the file is reached: "", io.EOF is returned.
 func (rf *Rfile) ReadLine() (string, error) {
 	if rf.i > 0 {
 		rf.i--
