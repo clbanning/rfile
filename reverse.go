@@ -1,5 +1,4 @@
-// reverse.go - read a file line-by-line backwards
-
+// Package rfile reads a file line-by-line backwards.
 package rfile
 
 import (
@@ -9,15 +8,15 @@ import (
 )
 
 type Rfile struct {
-	fh             *os.File
-	offset         int64
-	bufsize        int
-	lines          [][]byte
-	i              int
+	fh            *os.File
+	offset        int64
+	bufsize       int
+	lines         [][]byte
+	i             int
 	atStartOfFile bool
 }
 
-// Open a file that you want read in reverse line-by-line.
+// Open a file to be read in reverse line-by-line.
 func NewReverseFile(file string) (*Rfile, error) {
 	var err error
 	rf := new(Rfile)
@@ -26,7 +25,6 @@ func NewReverseFile(file string) (*Rfile, error) {
 	}
 	fi, _ := rf.fh.Stat()
 	rf.offset = fi.Size()
-	rf.lines = make([][]byte,0)
 	rf.bufsize = 4096
 	return rf, nil
 }
@@ -46,28 +44,19 @@ func (rf *Rfile) ReadLine() (string, error) {
 	if rf.i < 0 {
 		return "", io.EOF
 	}
-	if rf.atStartOfFile {
-		rf.i--
+	if rf.atStartOfFile { // rf.i == 0
+		rf.i-- // use as flag to send EOF on next call
 		return string(rf.lines[0]), nil
 	}
 
-	// save what hasn't been retrieved
-	var remainder []byte
-	if len(rf.lines) > 0 {
-		remainder = rf.lines[0]
-	} else {
-		remainder = make([]byte,0)
-	}
-
-	// get more from file
-	// back up from end-of-file
+	// get more from file - back up from end-of-file
 	rf.offset -= int64(rf.bufsize)
 	if rf.offset < 0 {
-		rf.bufsize += int(rf.offset) // shrink the buffer
+		rf.bufsize += int(rf.offset)
 		rf.offset = 0
 		rf.atStartOfFile = true
 	}
-	_, err := rf.fh.Seek(rf.offset, 0) // read end of file
+	_, err := rf.fh.Seek(rf.offset, 0)
 	if err != nil {
 		return "", err
 	}
@@ -81,9 +70,11 @@ func (rf *Rfile) ReadLine() (string, error) {
 	}
 
 	// get the lines in the buffer, append what was carried over
-	buf = append(buf, remainder...)
+	if len(rf.lines) > 0 {
+		buf = append(buf, rf.lines[0]...)
+	}
 	rf.lines = bytes.Split(buf, []byte("\n"))
-	rf.i = len(rf.lines)-1
+	rf.i = len(rf.lines) - 1
 
 	return rf.ReadLine() // now read the next line back
 }
