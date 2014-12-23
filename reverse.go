@@ -72,8 +72,6 @@ func (rf *Rfile) ReadLine() (string, error) {
 		return "", err
 	}
 
-	println("priming buffer - len:", rf.bufsize)
-
 	// compute buffer size
 	buf := make([]byte, rf.bufsize)
 	if n, err := rf.fh.Read(buf); err != nil && err != io.EOF {
