@@ -2,15 +2,16 @@ rfile
 =====
 
 read a file in reverse line-by-line
-
+<pre>
 ...
-f, err := NewReverseFile(file string)
-for {
-  line, err := f.ReadLine()
-  if err != nil {
-      break // may be io.EOF
-  }
-  // do something with "line"
-}
-f.Close()
-...
+  f, err := NewReverseFile(file string)
+  for {
+    line, err := f.ReadLine()
+    if err != nil {
+        break // may be io.EOF
+    }
+    // do something with "line"
+    }
+  f.Close()
+  ...
+</pre>
