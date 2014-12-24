@@ -7,7 +7,7 @@ Inspired by: https://groups.google.com/forum/?fromgroups#!topic/golang-nuts/a0NR
 
 <pre>
 ...
-  f, err := NewReverseFile(file string)
+  f, err := NewReverseFile(file)
   if err != nil {
     // handle err
   }
