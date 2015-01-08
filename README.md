@@ -7,7 +7,11 @@ Inspired by: https://groups.google.com/forum/?fromgroups#!topic/golang-nuts/a0NR
 
 <pre>
 ...
+<<<<<<< HEAD
   f, err := Open(file)
+=======
+  f, err := NewReverseFile(file)
+>>>>>>> FETCH_HEAD
   if err != nil {
     // handle err
   }
