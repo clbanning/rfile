@@ -17,7 +17,21 @@ type Rfile struct {
 }
 
 // Open a file to be read in reverse line-by-line.
+// (Use Open(). Kept for backwards compatibility.)
 func NewReverseFile(file string) (*Rfile, error) {
+	var err error
+	rf := new(Rfile)
+	if rf.fh, err = os.Open(file); err != nil {
+		return nil, err
+	}
+	fi, _ := rf.fh.Stat()
+	rf.offset = fi.Size()
+	rf.bufsize = 4096
+	return rf, nil
+}
+
+// Open a file to be read in reverse line-by-line.
+func Open(file string) (*Rfile, error) {
 	var err error
 	rf := new(Rfile)
 	if rf.fh, err = os.Open(file); err != nil {
