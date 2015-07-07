@@ -9,7 +9,7 @@ import (
 )
 
 func TestRfile(t *testing.T) {
-		rf, err := Open("reverse.go")
+		rf, err := Open("test.file")
 		if err != nil {
 			t.Fatal(err)
 		}
