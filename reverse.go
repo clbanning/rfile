@@ -1,3 +1,6 @@
+// Copyright (c) 2014 Charles Banning <clbanning@gmail.com>.  All rights reserved.
+// See LICENSE file for terms of use.
+
 // Package rfile reads a file line-by-line backwards.
 package rfile
 
@@ -13,7 +16,6 @@ type Rfile struct {
 	bufsize       int
 	lines         [][]byte
 	i             int
-	atStartOfFile bool
 }
 
 // Open a file to be read in reverse line-by-line.
@@ -58,7 +60,7 @@ func (rf *Rfile) ReadLine() (string, error) {
 	if rf.i < 0 {
 		return "", io.EOF
 	}
-	if rf.atStartOfFile { // rf.i == 0
+	if rf.offset == 0 {
 		rf.i-- // use as flag to send EOF on next call
 		return string(rf.lines[0]), nil
 	}
@@ -66,9 +68,8 @@ func (rf *Rfile) ReadLine() (string, error) {
 	// get more from file - back up from end-of-file
 	rf.offset -= int64(rf.bufsize)
 	if rf.offset < 0 {
-		rf.bufsize += int(rf.offset)
+		rf.bufsize += int(rf.offset) // rf.offset is negative
 		rf.offset = 0
-		rf.atStartOfFile = true
 	}
 	_, err := rf.fh.Seek(rf.offset, 0)
 	if err != nil {
