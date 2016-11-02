@@ -1,7 +1,7 @@
 // Copyright (c) 2014 Charles Banning <clbanning@gmail.com>.  All rights reserved.
 // See LICENSE file for terms of use.
 
-// Package rfile reads a file line-by-line backwards.
+// Package rfile reads a file in reverse - line-by-line.
 package rfile
 
 import (
