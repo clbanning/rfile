@@ -10,6 +10,7 @@ import (
 	"os"
 )
 
+// Rfile manages a file opened for reading line-by-line in reverse.
 type Rfile struct {
 	fh            *os.File
 	offset        int64
@@ -18,7 +19,7 @@ type Rfile struct {
 	i             int
 }
 
-// Open a file to be read in reverse line-by-line.
+// NewReverseFile opens a file to be read in reverse line-by-line.
 // (Use Open(). Kept for backwards compatibility.)
 func NewReverseFile(file string) (*Rfile, error) {
 	var err error
@@ -32,7 +33,7 @@ func NewReverseFile(file string) (*Rfile, error) {
 	return rf, nil
 }
 
-// Open a file to be read in reverse line-by-line.
+// Open returns Rfile handle to be read in reverse line-by-line.
 func Open(file string) (*Rfile, error) {
 	var err error
 	rf := new(Rfile)
@@ -50,7 +51,7 @@ func (rf *Rfile) Close() {
 	rf.fh.Close()
 }
 
-// Read next previous line, beginning with the last line in the file.
+// ReadLine returns the  next previous line, beginning with the last line in the file.
 // When the beginning of the file is reached: "", io.EOF is returned.
 func (rf *Rfile) ReadLine() (string, error) {
 	if rf.i > 0 {
