@@ -20,7 +20,8 @@ type Rfile struct {
 }
 
 // NewReverseFile opens a file to be read in reverse line-by-line.
-// (Use Open(). Kept for backwards compatibility.)
+//
+// Deprecated: Use Open
 func NewReverseFile(file string) (*Rfile, error) {
 	var err error
 	rf := new(Rfile)
