@@ -7,7 +7,7 @@ Inspired by: https://groups.google.com/forum/?fromgroups#!topic/golang-nuts/a0NR
 
 <pre>
 ...
-  f, err := Open(file)
+  f, err := rfile.Open(file)
   if err != nil {
     // handle err
   }
