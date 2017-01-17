@@ -116,16 +116,11 @@ func Tail(file string, n int) ([]string, error) {
 	for i = n - 1; i >= 0; i-- {
 		lines[i], err = fh.ReadLine()
 		if err == io.EOF {
-			i++ // lines[i] is ""; we'll strip it
+			lines = lines[i+1:] // back it out
 			break
 		} else if err != nil {
 			return lines[i:], err
 		}
-	}
-
-	// See if number of lines < 'n'.
-	if i > 0 {
-		lines = lines[i:]
 	}
 
 	return lines, nil

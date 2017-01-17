@@ -19,3 +19,17 @@ func TestTail(t *testing.T) {
 	}
 }
 
+func TestTailSmallFile(t *testing.T) {
+	fmt.Println("\n---------- TestTailSmallFile")
+	tail, err := Tail("small.file", 4)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(tail) != 2 {
+		t.Fatal("tail has len:", len(tail))
+	}
+	for i, s := range tail {
+		fmt.Println(i, ":", s)
+	}
+}
+
