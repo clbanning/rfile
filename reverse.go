@@ -12,11 +12,11 @@ import (
 
 // Rfile manages a file opened for reading line-by-line in reverse.
 type Rfile struct {
-	fh            *os.File
-	offset        int64
-	bufsize       int
-	lines         [][]byte
-	i             int
+	fh      *os.File
+	offset  int64
+	bufsize int
+	lines   [][]byte
+	i       int
 }
 
 // NewReverseFile opens a file to be read in reverse line-by-line.
@@ -57,6 +57,7 @@ func (rf *Rfile) Close() {
 func (rf *Rfile) ReadLine() (string, error) {
 	if rf.i > 0 {
 		rf.i--
+		// fmt.Println(string(rf.lines[rf.i+1]))
 		return string(rf.lines[rf.i+1]), nil
 	}
 	if rf.i < 0 {
@@ -91,7 +92,40 @@ func (rf *Rfile) ReadLine() (string, error) {
 		buf = append(buf, rf.lines[0]...)
 	}
 	rf.lines = bytes.Split(buf, []byte("\n"))
+	rf.lines = rf.lines[:len(rf.lines)-1]
 	rf.i = len(rf.lines) - 1
 
 	return rf.ReadLine() // now read the next line back
+}
+
+// Tail returns the last N lines of a file.  If the file has
+// fewer lines than N, the whole file will be returned.
+func Tail(file string, n int) ([]string, error) {
+	lines := make([]string, n)
+
+	fh, err := Open(file)
+	if err != nil {
+		return nil, err
+	}
+	defer fh.Close()
+
+	// Save the lines in reverse order.
+	var i int
+	for i = n - 1; i >= 0; i-- {
+		lines[i], err = fh.ReadLine()
+		// fmt.Println(i, ":", lines[i])
+		if err == io.EOF {
+			i++ // lines[i] is ""; we'll strip it
+			break
+		} else if err != nil {
+			return lines[i:], err
+		}
+	}
+
+	// See if number of lines < 'n'.
+	if i > 0 {
+		lines = lines[i:]
+	}
+
+	return lines, nil
 }

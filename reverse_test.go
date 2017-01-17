@@ -9,7 +9,8 @@ import (
 )
 
 func TestRfile(t *testing.T) {
-		rf, err := Open("test.file")
+		fmt.Println("\n----------- TestRfile")
+		rf, err := Open("LICENSE")
 		if err != nil {
 			t.Fatal(err)
 		}
