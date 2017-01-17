@@ -92,7 +92,7 @@ func (rf *Rfile) ReadLine() (string, error) {
 		buf = append(buf, rf.lines[0]...)
 	}
 	rf.lines = bytes.Split(buf, []byte("\n"))
-	rf.lines = rf.lines[:len(rf.lines)-1]
+	// rf.lines = rf.lines[:len(rf.lines)-1]
 	rf.i = len(rf.lines) - 1
 
 	return rf.ReadLine() // now read the next line back
