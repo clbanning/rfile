@@ -57,7 +57,6 @@ func (rf *Rfile) Close() {
 func (rf *Rfile) ReadLine() (string, error) {
 	if rf.i > 0 {
 		rf.i--
-		// fmt.Println(string(rf.lines[rf.i+1]))
 		return string(rf.lines[rf.i+1]), nil
 	}
 	if rf.i < 0 {
@@ -91,8 +90,11 @@ func (rf *Rfile) ReadLine() (string, error) {
 	if len(rf.lines) > 0 {
 		buf = append(buf, rf.lines[0]...)
 	}
+	// clean up terminating NL so we don't get empty slice from Split
+	if buf[len(buf)-1] == '\n' {
+		buf = buf[:len(buf)-1]
+	}
 	rf.lines = bytes.Split(buf, []byte("\n"))
-	// rf.lines = rf.lines[:len(rf.lines)-1]
 	rf.i = len(rf.lines) - 1
 
 	return rf.ReadLine() // now read the next line back
@@ -113,7 +115,6 @@ func Tail(file string, n int) ([]string, error) {
 	var i int
 	for i = n - 1; i >= 0; i-- {
 		lines[i], err = fh.ReadLine()
-		// fmt.Println(i, ":", lines[i])
 		if err == io.EOF {
 			i++ // lines[i] is ""; we'll strip it
 			break
