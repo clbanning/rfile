@@ -1,4 +1,4 @@
-// Copyright (c) 2014 Charles Banning <clbanning@gmail.com>.  All rights reserved.
+// Copyright (c) 2014, 2017 Charles Banning <clbanning@gmail.com>.  All rights reserved.
 // See LICENSE file for terms of use.
 
 // Package rfile reads a file in reverse - line-by-line.
@@ -17,21 +17,6 @@ type Rfile struct {
 	bufsize int
 	lines   [][]byte
 	i       int
-}
-
-// NewReverseFile opens a file to be read in reverse line-by-line.
-//
-// Deprecated: Use Open
-func NewReverseFile(file string) (*Rfile, error) {
-	var err error
-	rf := new(Rfile)
-	if rf.fh, err = os.Open(file); err != nil {
-		return nil, err
-	}
-	fi, _ := rf.fh.Stat()
-	rf.offset = fi.Size()
-	rf.bufsize = 4096
-	return rf, nil
 }
 
 // Open returns Rfile handle to be read in reverse line-by-line.
