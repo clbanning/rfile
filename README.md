@@ -3,9 +3,9 @@ rfile
 
 Read a file in reverse line-by-line.
 
-Inspired by: [gonuts discussion][https://groups.google.com/forum/?fromgroups#!topic/golang-nuts/a0NRB-spRhc].
+Inspired by: a [gonuts discussion].
 
-Documentation: [here][https://godoc.org/github.com/clbanning/rfile].
+Documentation: in [godoc].
 
 <pre>
 ...
@@ -26,3 +26,7 @@ Documentation: [here][https://godoc.org/github.com/clbanning/rfile].
   f.Close()
   ...
 </pre>
+
+[gonuts discussion][https://groups.google.com/forum/?fromgroups#!topic/golang-nuts/a0NRB-spRhc].
+[godoc][https://godoc.org/github.com/clbanning/rfile]
+
