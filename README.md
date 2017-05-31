@@ -3,9 +3,9 @@ rfile
 
 Read a file in reverse line-by-line.
 
-Inspired by: a [gonuts discussion].
+Inspired by: a [gonuts discussion][gonuts].
 
-Documentation: in [godoc].
+Documentation: in [godoc][godoc].
 
 <pre>
 ...
@@ -27,6 +27,6 @@ Documentation: in [godoc].
   ...
 </pre>
 
-[gonuts discussion][https://groups.google.com/forum/?fromgroups#!topic/golang-nuts/a0NRB-spRhc].
-[godoc][https://godoc.org/github.com/clbanning/rfile]
+[gonuts]: https://groups.google.com/forum/?fromgroups#!topic/golang-nuts/a0NRB-spRhc
+[godoc]: https://godoc.org/github.com/clbanning/rfile
 
