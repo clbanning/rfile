@@ -3,7 +3,9 @@ rfile
 
 Read a file in reverse line-by-line.
 
-Inspired by: https://groups.google.com/forum/?fromgroups#!topic/golang-nuts/a0NRB-spRhc.
+Inspired by: [gonuts discussion][https://groups.google.com/forum/?fromgroups#!topic/golang-nuts/a0NRB-spRhc].
+
+Documentation: [here][https://godoc.org/github.com/clbanning/rfile].
 
 <pre>
 ...
