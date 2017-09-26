@@ -19,7 +19,7 @@ Documentation: in [godoc][godoc].
       if err != io.EOF {
         // handle error
       }
-      break // may be io.EOF
+      break // must be io.EOF
     }
     // do something with "line"
   }
