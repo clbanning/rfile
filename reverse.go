@@ -63,7 +63,7 @@ func (rf *Rfile) ReadLine() (string, error) {
 		return "", err
 	}
 
-	// compute buffer size
+	// size buffer
 	buf := make([]byte, rf.bufsize)
 	if n, err := rf.fh.Read(buf); err != nil && err != io.EOF {
 		return "", err
@@ -86,7 +86,7 @@ func (rf *Rfile) ReadLine() (string, error) {
 }
 
 // Tail returns the last N lines of a file.  If the file has
-// fewer lines than N, the whole file will be returned.
+// fewer lines than 'n', the whole file will be returned.
 func Tail(file string, n int) ([]string, error) {
 	lines := make([]string, n)
 
