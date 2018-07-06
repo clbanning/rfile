@@ -1,4 +1,4 @@
-// Copyright (c) 2014, 2017 Charles Banning <clbanning@gmail.com>.  All rights reserved.
+// Copyright (c) 2014-2018 Charles Banning <clbanning@gmail.com>.  All rights reserved.
 // See LICENSE file for terms of use.
 
 // Package rfile reads a file in reverse - line-by-line.
