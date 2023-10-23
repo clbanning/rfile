@@ -49,6 +49,9 @@ func (rf *Rfile) ReadLine() (string, error) {
 	}
 	if rf.offset == 0 {
 		rf.i-- // use as flag to send EOF on next call
+		if rf.lines == nil {
+			return "", io.EOF
+		}
 		return string(rf.lines[0]), nil
 	}
 
