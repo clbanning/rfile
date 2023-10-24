@@ -3,26 +3,74 @@
 package rfile
 
 import (
-	"fmt"
 	"io"
+	"os"
+	"reflect"
 	"testing"
 )
 
 func TestRfile(t *testing.T) {
-		fmt.Println("\n----------- TestRfile")
-		rf, err := Open("LICENSE")
-		if err != nil {
-			t.Fatal(err)
-		}
-		for {
-			line, err := rf.ReadLine()
+	tests := map[string]struct {
+		content   string
+		wantLines []string
+	}{
+		"empty file": {
+			content:   "",
+			wantLines: nil,
+		},
+		"one-line file": {
+			content:   "1st line",
+			wantLines: []string{"1st line"},
+		},
+		"multi-line file": {
+			content:   "1st line\n2nd line\n",
+			wantLines: []string{"2nd line", "1st line"},
+		},
+		"multi-line file with empty lines": {
+			content:   "1st line\n2nd line\n3rd line\n\n4th line\n\n",
+			wantLines: []string{"", "4th line", "", "3rd line", "2nd line", "1st line"},
+		},
+	}
+
+	for name, test := range tests {
+		t.Run(name, func(t *testing.T) {
+			filename := createTempFile(t, test.content)
+			defer os.Remove(filename)
+
+			rf, err := Open(filename)
 			if err != nil {
-				if err != io.EOF {
-					t.Fatal(err)
-				}
-				break
+				t.Fatal(err)
 			}
-			fmt.Println(line)
-		}
-		rf.Close()
+			defer rf.Close()
+
+			var lines []string
+
+			for {
+				line, err := rf.ReadLine()
+				if err != nil {
+					if err != io.EOF {
+						t.Fatal(err)
+					}
+					break
+				}
+				lines = append(lines, line)
+			}
+
+			if !reflect.DeepEqual(test.wantLines, lines) {
+				t.Errorf("not equal: want '%v' got '%v'", test.wantLines, lines)
+			}
+		})
+	}
+}
+
+func createTempFile(t *testing.T, content string) string {
+	t.Helper()
+	file, err := os.CreateTemp("", "rfile-test-ReadLine")
+	if err != nil {
+		t.Fatalf("create a temp file: %v", err)
+	}
+	defer func() { _ = file.Close() }()
+
+	_, _ = file.WriteString(content)
+	return file.Name()
 }
